@@ -12,6 +12,9 @@
   "sidebar": {
     "settings": "Settings",
     "description": "Configure output settings for all images",
+    "preset": "Preset",
+    "preset_placeholder": "Select size...",
+    "custom": "Custom",
     "dimensions": "Dimensions",
     "width": "Width:",
     "height": "Height:",

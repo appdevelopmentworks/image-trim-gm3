@@ -1,28 +1,34 @@
-# Image Resizer for Creators
+# Image Resizer for Creators (Image Trim GM3)
 
-デジカメ写真やイラストを、WEBサイトやSNSなどの用途に合わせて最適なサイズ・アスペクト比に一括変換するデスクトップ＆ウェブアプリケーションです。
+デジカメ写真やイラストを、WEBサイトやSNSなどの用途に合わせて最適なサイズ・アスペクト比に一括変換するデスクトップアプリケーションです。
 
 ## 概要
 
-このアプリケーションは、Next.jsとElectronを使用しており、単一のコードベースからWebアプリとデスクトップアプリ（Windows, macOS）の両方をビルドできます。画像処理はすべてクライアントサイドで完結するため、プライバシーが保護され、サーバーコストもかかりません。
+このアプリケーションは、ElectronとReactを使用しており、WindowsおよびmacOSで動作します。画像処理はすべてクライアントサイド（Canvas API）で完結するため、プライバシーが保護され、高速に処理されます。
 
 ## 主な機能
 
 -   **複数画像のアップロード:** ドラッグ＆ドロップまたはファイル選択で画像を簡単に追加。
--   **リサイズプリセット:** SNS、ブログ、ウェブサイトなど一般的な用途に合わせた画像サイズをワンクリックで適用。
+-   **SNSプリセット:** Instagram, X (Twitter), Facebook, YouTube などの推奨サイズをワンクリックで適用。
+-   **リサイズモード:**
+    -   **Crop to Fill:** 指定サイズに合わせて中央を切り抜き。
+    -   **Fit to Size:** アスペクト比を維持したまま指定サイズ内に収める。
 -   **カスタムサイズ指定:** 幅と高さを自由に設定可能。
--   **インタラクティブな切り抜き:** 各画像の切り抜き範囲を直感的に調整。
--   **複数フォーマット出力:** JPG, PNG, WebP形式での保存に対応。
+-   **インタラクティブな編集:** 各画像の切り抜き位置やズーム倍率を個別に調整可能。
+-   **複数フォーマット出力:** JPG, PNG, WebP形式での保存に対応。品質設定も可能。
 -   **一括ダウンロード:** 処理後の画像はZIPファイルとしてまとめてダウンロード。
+-   **多言語対応:** 日本語と英語に対応。
 
 ## 技術スタック
 
--   **Framework:** Next.js (App Router)
--   **Desktop Wrapper:** Electron
+-   **Runtime:** Electron
+-   **Framework:** React
 -   **Language:** TypeScript
+-   **Bundler:** esbuild
 -   **Styling:** Tailwind CSS
 -   **UI Components:** shadcn/ui
--   **Image Processing:** HTML5 Canvas API
+-   **State Management:** Zustand
+-   **Internationalization:** i18next
 
 ## 開発環境のセットアップ
 
@@ -46,36 +52,20 @@
 
 ## アプリケーションの起動
 
-### Webアプリとして起動
+開発モードで起動します（ビルド + Electron起動）。
 
 ```bash
 pnpm dev
+# または
+pnpm start
 ```
 
-ブラウザで `http://localhost:3000` を開いてください。
+## パッケージング（ビルド）
 
-### デスクトップアプリとして起動
+配布用のインストーラー（Windows: .exe / macOS: .dmg）を作成します。
 
 ```bash
-pnpm dev:electron
+pnpm dist
 ```
 
-Electronウィンドウが起動します。
-
-## ビルド
-
-### Webアプリのビルド
-
-```bash
-pnpm build
-```
-
-### デスクトップアプリのビルド
-
-```bash
-# for Windows
-pnpm build:electron:win
-
-# for macOS
-pnpm build:electron:mac
-```
+生成されたファイルは `dist` または `release` ディレクトリに出力されます。

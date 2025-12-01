@@ -7,7 +7,9 @@ import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
@@ -17,6 +19,7 @@ import { processImages } from "../../lib/image-processor";
 import { downloadBlobs } from "../../lib/downloader";
 import { ExportSettings } from "../../types";
 import { Settings2, Download, Image as ImageIcon, Maximize2, FileType, Sliders, Crop } from "lucide-react";
+import { PRESETS } from "../../constants/presets";
 
 const getNewFileName = (originalName: string, format: ExportSettings['format']) => {
   const name = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
@@ -28,6 +31,35 @@ export function Sidebar() {
   const { t } = useTranslation();
   const { globalSettings, updateGlobalSettings, images } = useStore();
   const [isProcessing, setIsProcessing] = React.useState(false);
+
+  // Determine current preset
+  const currentPresetId = React.useMemo(() => {
+    const match = PRESETS.find(
+      p => p.width === globalSettings.targetWidth && p.height === globalSettings.targetHeight
+    );
+    return match ? match.id : "custom";
+  }, [globalSettings.targetWidth, globalSettings.targetHeight]);
+
+  const handlePresetChange = (value: string) => {
+    if (value === "custom") return;
+    const preset = PRESETS.find(p => p.id === value);
+    if (preset) {
+      updateGlobalSettings({
+        targetWidth: preset.width,
+        targetHeight: preset.height,
+      });
+    }
+  };
+
+  // Group presets
+  const groupedPresets = React.useMemo(() => {
+    const groups: Record<string, typeof PRESETS> = {};
+    PRESETS.forEach(preset => {
+      if (!groups[preset.group]) groups[preset.group] = [];
+      groups[preset.group].push(preset);
+    });
+    return groups;
+  }, []);
 
   const handleProcess = async () => {
     if (images.length === 0) {
@@ -61,6 +93,37 @@ export function Sidebar() {
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 space-y-8">
+
+        {/* Preset Section */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-sm font-medium text-foreground/80">
+            <ImageIcon className="w-4 h-4" />
+            <span>{t("sidebar.preset")}</span>
+          </div>
+          <Select
+            value={currentPresetId}
+            onValueChange={handlePresetChange}
+            disabled={isProcessing}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={t("sidebar.preset_placeholder")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="custom">{t("sidebar.custom")}</SelectItem>
+              {Object.entries(groupedPresets).map(([group, presets]) => (
+                <SelectGroup key={group}>
+                  <SelectLabel>{group}</SelectLabel>
+                  {presets.map(preset => (
+                    <SelectItem key={preset.id} value={preset.id}>
+                      {preset.label} ({preset.width}x{preset.height})
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         {/* Dimensions Section */}
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-sm font-medium text-foreground/80">

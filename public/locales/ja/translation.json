@@ -12,6 +12,9 @@
   "sidebar": {
     "settings": "設定",
     "description": "全ての画像に対する出力設定を行います",
+    "preset": "プリセット",
+    "preset_placeholder": "サイズを選択...",
+    "custom": "カスタム",
     "dimensions": "サイズ",
     "width": "幅:",
     "height": "高さ:",
