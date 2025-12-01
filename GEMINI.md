@@ -88,6 +88,7 @@ npm start
 
 MVP（Minimum Viable Product）として計画された全ての機能実装とUI改善が完了しました。
 - [x] 基本的な画像処理機能
+- [x] アスペクト比維持リサイズ機能 (Fit to Size)
 - [x] 一括ZIPダウンロード
 - [x] トリミング・ズーム編集機能
 - [x] 設定の永続化

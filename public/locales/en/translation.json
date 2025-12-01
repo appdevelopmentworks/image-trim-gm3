@@ -24,7 +24,10 @@
     "no_images": "No images to process",
     "processing_complete": "Processing complete!",
     "processing_failed": "Processing failed.",
-    "images_ready": "{{count}} images ready to process"
+    "images_ready": "{{count}} images ready to process",
+    "resize_mode": "Resize Mode",
+    "mode_crop": "Crop to Fill",
+    "mode_fit": "Fit to Size"
   },
   "dropzone": {
     "prompt": "Upload Images",

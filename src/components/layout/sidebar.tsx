@@ -16,7 +16,7 @@ import { Button } from "../ui/button";
 import { processImages } from "../../lib/image-processor";
 import { downloadBlobs } from "../../lib/downloader";
 import { ExportSettings } from "../../types";
-import { Settings2, Download, Image as ImageIcon, Maximize2, FileType, Sliders } from "lucide-react";
+import { Settings2, Download, Image as ImageIcon, Maximize2, FileType, Sliders, Crop } from "lucide-react";
 
 const getNewFileName = (originalName: string, format: ExportSettings['format']) => {
   const name = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
@@ -106,6 +106,32 @@ export function Sidebar() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Resize Mode Section */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-sm font-medium text-foreground/80">
+            <Crop className="w-4 h-4" />
+            <span>{t("sidebar.resize_mode")}</span>
+          </div>
+
+          <Select
+            value={globalSettings.keepAspectRatio ? "fit" : "crop"}
+            onValueChange={(value) =>
+              updateGlobalSettings({
+                keepAspectRatio: value === "fit",
+              })
+            }
+            disabled={isProcessing}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="crop">{t("sidebar.mode_crop")}</SelectItem>
+              <SelectItem value="fit">{t("sidebar.mode_fit")}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Format Section */}

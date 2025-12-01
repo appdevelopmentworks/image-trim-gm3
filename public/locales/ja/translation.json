@@ -24,7 +24,10 @@
     "no_images": "処理する画像がありません",
     "processing_complete": "処理が完了しました！",
     "processing_failed": "処理に失敗しました。",
-    "images_ready": "{{count}} 枚の画像が処理待ちです"
+    "images_ready": "{{count}} 枚の画像が処理待ちです",
+    "resize_mode": "リサイズモード",
+    "mode_crop": "切り抜き (Crop)",
+    "mode_fit": "全体を表示 (Fit)"
   },
   "dropzone": {
     "prompt": "画像をアップロード",

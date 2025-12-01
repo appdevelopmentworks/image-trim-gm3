@@ -24,34 +24,54 @@ function processSingleImage(imageItem: ImageItem, settings: ExportSettings): Pro
         return reject(new Error('Failed to get canvas context.'));
       }
 
-      // Default to center-crop logic, but account for zoom.
-      const sourceAspectRatio = img.naturalWidth / img.naturalHeight;
-      const targetAspectRatio = settings.targetWidth / settings.targetHeight;
+      if (settings.keepAspectRatio) {
+        // Fit to Size logic: Maintain aspect ratio and fit within target dimensions
+        const scale = Math.min(
+          settings.targetWidth / img.naturalWidth,
+          settings.targetHeight / img.naturalHeight
+        );
+        const targetW = Math.round(img.naturalWidth * scale);
+        const targetH = Math.round(img.naturalHeight * scale);
 
-      let sw = img.naturalWidth;
-      let sh = img.naturalHeight;
+        // Resize canvas to match the new dimensions
+        canvas.width = targetW;
+        canvas.height = targetH;
 
-      if (sourceAspectRatio > targetAspectRatio) {
-        sw = img.naturalHeight * targetAspectRatio;
-      } else if (sourceAspectRatio < targetAspectRatio) {
-        sh = img.naturalWidth / targetAspectRatio;
+        // Re-get context after resizing canvas (though usually not strictly necessary if context exists, but good practice if canvas is recreated)
+        // In this flow, we just change width/height properties.
+
+        // Draw the full image resized
+        ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, targetW, targetH);
+      } else {
+        // Default to center-crop logic, but account for zoom.
+        const sourceAspectRatio = img.naturalWidth / img.naturalHeight;
+        const targetAspectRatio = settings.targetWidth / settings.targetHeight;
+
+        let sw = img.naturalWidth;
+        let sh = img.naturalHeight;
+
+        if (sourceAspectRatio > targetAspectRatio) {
+          sw = img.naturalHeight * targetAspectRatio;
+        } else if (sourceAspectRatio < targetAspectRatio) {
+          sh = img.naturalWidth / targetAspectRatio;
+        }
+
+        // Apply zoom
+        const zoom = imageItem.zoom || 1;
+        const zoomedSw = sw / zoom;
+        const zoomedSh = sh / zoom;
+
+        // sx and sy are the top-left corner of the crop box.
+        // Start with a centered crop box, then adjust for user's pan (imageItem.crop)
+        let sx = (img.naturalWidth - zoomedSw) / 2 + (imageItem.crop?.x || 0);
+        let sy = (img.naturalHeight - zoomedSh) / 2 + (imageItem.crop?.y || 0);
+
+        // Ensure the crop area doesn't go out of bounds
+        sx = Math.max(0, Math.min(sx, img.naturalWidth - zoomedSw));
+        sy = Math.max(0, Math.min(sy, img.naturalHeight - zoomedSh));
+
+        ctx.drawImage(img, sx, sy, zoomedSw, zoomedSh, 0, 0, settings.targetWidth, settings.targetHeight);
       }
-      
-      // Apply zoom
-      const zoom = imageItem.zoom || 1;
-      const zoomedSw = sw / zoom;
-      const zoomedSh = sh / zoom;
-
-      // sx and sy are the top-left corner of the crop box.
-      // Start with a centered crop box, then adjust for user's pan (imageItem.crop)
-      let sx = (img.naturalWidth - zoomedSw) / 2 + (imageItem.crop?.x || 0);
-      let sy = (img.naturalHeight - zoomedSh) / 2 + (imageItem.crop?.y || 0);
-
-      // Ensure the crop area doesn't go out of bounds
-      sx = Math.max(0, Math.min(sx, img.naturalWidth - zoomedSw));
-      sy = Math.max(0, Math.min(sy, img.naturalHeight - zoomedSh));
-
-      ctx.drawImage(img, sx, sy, zoomedSw, zoomedSh, 0, 0, settings.targetWidth, settings.targetHeight);
 
       canvas.toBlob(
         (blob) => {
@@ -87,6 +107,6 @@ export async function processImages(
   console.log('Processing images with settings:', { images, settings });
 
   const processingPromises = images.map(image => processSingleImage(image, settings));
-  
+
   return Promise.all(processingPromises);
 }
