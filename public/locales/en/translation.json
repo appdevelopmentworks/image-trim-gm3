@@ -1,0 +1,44 @@
+{
+  "header": {
+    "title": "Image Trimmer"
+  },
+  "menu": {
+    "file": "File",
+    "exit": "Exit",
+    "view": "View",
+    "reload": "Reload",
+    "toggle_dev_tools": "Toggle Developer Tools"
+  },
+  "sidebar": {
+    "settings": "Settings",
+    "description": "Configure output settings for all images",
+    "dimensions": "Dimensions",
+    "width": "Width:",
+    "height": "Height:",
+    "format_quality": "Format & Quality",
+    "format": "Format:",
+    "format_placeholder": "Select format",
+    "quality": "Quality:",
+    "process_images": "Process Images",
+    "processing": "Processing...",
+    "no_images": "No images to process",
+    "processing_complete": "Processing complete!",
+    "processing_failed": "Processing failed.",
+    "images_ready": "{{count}} images ready to process"
+  },
+  "dropzone": {
+    "prompt": "Upload Images",
+    "description": "Drag & drop images here, or click to select files from your computer"
+  },
+  "image_card": {
+    "edit": "Edit",
+    "remove": "Remove"
+  },
+  "crop_modal": {
+    "title": "Edit Image",
+    "description": "Drag to pan, use slider to zoom",
+    "cancel": "Cancel",
+    "save": "Save",
+    "placeholder": "Cropping tool placeholder"
+  }
+}

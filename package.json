@@ -1,0 +1,73 @@
+{
+  "name": "image-trim-gm3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "npm run build && electron .",
+    "dev": "npm start",
+    "build": "npm run build:css && esbuild src/index.tsx --bundle --outfile=dist/bundle.js --platform=browser",
+    "build:css": "tailwindcss -i ./src/index.css -o ./dist/output.css",
+    "watch": "npm run build -- --watch",
+    "dist": "npm run build && electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.example.imagetrimgm3",
+    "productName": "Image Trim GM3",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js",
+      "preload.js",
+      "index.html",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "@types/uuid": "^9.0.8",
+    "autoprefixer": "^10.4.22",
+    "electron": "^39.2.2",
+    "esbuild": "^0.21.4",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-slider": "^1.2.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "i18next": "^25.6.3",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-backend": "^3.0.2",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.414.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-easy-crop": "^5.5.3",
+    "react-i18next": "^16.3.4",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^2.4.0",
+    "uuid": "^9.0.1",
+    "zustand": "^4.5.4"
+  },
+  "packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a"
+}

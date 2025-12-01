@@ -1,0 +1,44 @@
+{
+  "header": {
+    "title": "画像トリマー"
+  },
+  "menu": {
+    "file": "ファイル",
+    "exit": "終了",
+    "view": "表示",
+    "reload": "リロード",
+    "toggle_dev_tools": "開発者ツール"
+  },
+  "sidebar": {
+    "settings": "設定",
+    "description": "全ての画像に対する出力設定を行います",
+    "dimensions": "サイズ",
+    "width": "幅:",
+    "height": "高さ:",
+    "format_quality": "形式と品質",
+    "format": "フォーマット:",
+    "format_placeholder": "形式を選択",
+    "quality": "品質:",
+    "process_images": "画像を処理",
+    "processing": "処理中...",
+    "no_images": "処理する画像がありません",
+    "processing_complete": "処理が完了しました！",
+    "processing_failed": "処理に失敗しました。",
+    "images_ready": "{{count}} 枚の画像が処理待ちです"
+  },
+  "dropzone": {
+    "prompt": "画像をアップロード",
+    "description": "ここに画像をドラッグ＆ドロップするか、クリックしてファイルを選択してください"
+  },
+  "image_card": {
+    "edit": "編集",
+    "remove": "削除"
+  },
+  "crop_modal": {
+    "title": "画像を編集",
+    "description": "ドラッグして移動、スライダーでズーム",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "placeholder": "切り抜きツールプレースホルダー"
+  }
+}
